@@ -35,17 +35,17 @@ You will also need to include the project in your dependencies.
 
 ### Java
 
-Define the JestClientFactory class somewhere in your applications configuration.
+Define the JestConfiguraion class somewhere in your applications configuration.
 
 ```
-import com.meltmedia.dropwizard.jest.JestClientFactory;
+import com.meltmedia.dropwizard.jest.JestConfiguration;
 
 ...
 
   @JsonProperty
-  protected JestClientFactory jest;
+  protected JestConfiguration elasticsearch;
 
-  public JestClientFactory getJest() {
+  public JestConfiguration getElasticsearch() {
     return jest;
   }
 ```
@@ -56,22 +56,22 @@ Then include the bundle in the `initialize` method of your application.
 import com.meltmedia.dropwizard.jest.JestBundle;
 
 ...
+protected JestBundle jestBundle;
+
 @Override
 public void initialize(Bootstrap<ExampleConfiguration> bootstrap) {
-  bootstrap.addBundle(JestBundle.<ExampleConfiguration>builder()
-    .withFactory(ExampleConfiguration::getJest)
+  bootstrap.addBundle(jestBundle = JestBundle.<ExampleConfiguration>builder()
+    .withConfiguration(ExampleConfiguration::getElasticsearch)
     .build());
 }
 ```
 
-Finally, use the factory to access the client and database in your `run` method.
+Finally, use the bundle to access the client supplier.
 
 ```
 @Override
 public void run(ExampleConfiguration config, Environment env) throws Exception {
-  JestClient client = config.getJest().getClient(env);
-  DB db = config.getJest().getDB(env);
-  // do something cool.
+  JestClient client = jestBundle.getClientSupplier().get();
 }
 ```
 
@@ -81,13 +81,13 @@ Add the jest configuraiton block to your applications config.
 
 ```
 elasticsearch:
-  clusterName: cluster
+  clusterName: elasticsearch
   uri: 'http://localhost:9200'
 ```
 
 ## Building
 
-This project builds with Java8 and Maven 3.  After cloning the repo, install the bundle from the root of the project.
+This project builds with Java 8 and Maven 3.  After cloning the repo, install the bundle from the root of the project.
 
 ```
 mvn clean install
@@ -95,14 +95,7 @@ mvn clean install
 
 ### Integration Tests
 
-You can also run integration tests while running the build.  First, you will need to
-make sure the configuration passphrase is in the environment.
-
-```
-export EXAMPLE_PASSPHRASE='correct horse battery staple'
-```
-
-Then run the build with the `integration-tests` profile.
+Run the build with the `integration-tests` profile.
 
 ```
 mvn clean install -P integration-tests
