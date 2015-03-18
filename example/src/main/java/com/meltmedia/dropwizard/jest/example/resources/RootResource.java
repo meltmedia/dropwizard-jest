@@ -17,6 +17,7 @@ package com.meltmedia.dropwizard.jest.example.resources;
 
 import io.searchbox.client.JestClient;
 import io.searchbox.client.JestResult;
+import io.searchbox.core.Get;
 import io.searchbox.core.Index;
 import io.searchbox.core.Search;
 
@@ -161,6 +162,29 @@ public class RootResource {
       this.indexName = indexName;
       this.typeName = typeName;
       this.id = id;
+    }
+    
+    @GET
+    @Produces("application/json")
+    public Response getResource() {
+      try {
+        JestResult result =
+            clientSupplier.get().execute(
+              new Get.Builder(indexName, id).type(typeName).build());
+
+        if (result.isSucceeded()) {
+          return Response.ok().entity(result.getJsonObject().get("_source").toString()).build();
+        }
+
+        log.error("index document did not succeed:" + result.getJsonString());
+        return Response.serverError().build();
+      } catch (JsonProcessingException e) {
+        log.error("could not serialize resource", e);
+        return Response.status(400).build();
+      } catch (Exception e) {
+        log.error("could not send content to elasticsearch", e);
+        return Response.serverError().build();
+      }
     }
 
     @PUT
