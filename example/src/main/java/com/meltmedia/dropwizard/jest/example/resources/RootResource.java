@@ -73,48 +73,51 @@ public class RootResource {
   public RootResource(Supplier<JestClient> clientSupplier) {
     this.clientSupplier = clientSupplier;
   }
-  
+
   @Path("{indexName}")
-  public IndexResource index( @PathParam("indexName") String indexName ) {
+  public IndexResource index(@PathParam("indexName") String indexName) {
     return new IndexResource(indexName);
   }
-  
+
   public class IndexResource {
-    
+
     String indexName;
 
     public IndexResource(String indexName) {
       this.indexName = indexName;
     }
-    
+
     @Path("{typeName}")
-    public TypeResource type( @PathParam("typeName") String typeName ) {
+    public TypeResource type(@PathParam("typeName") String typeName) {
       return new TypeResource(indexName, typeName);
     }
-    
+
     @GET
-    public Response putResource( @QueryParam("q") String query ) throws JsonProcessingException {
+    public Response putResource(@QueryParam("q") String query) throws JsonProcessingException {
       try {
-        JestResult result = clientSupplier.get().execute(new Search.Builder(new SearchSourceBuilder()
-        .query( QueryBuilders.queryString(query))
-        .toString()).addIndex(indexName).build());
-        if( !result.isSucceeded() ) {
-          log.error("could not search for resource: "+result.getJsonString());
+        JestResult result =
+            clientSupplier.get().execute(
+                new Search.Builder(new SearchSourceBuilder()
+                    .query(QueryBuilders.queryString(query)).toString()).addIndex(indexName)
+                    .build());
+        if (!result.isSucceeded()) {
+          log.error("could not search for resource: " + result.getJsonString());
           return Response.serverError().build();
         }
-        List<String> sources = StreamSupport.stream(result.getJsonObject().get("hits").getAsJsonArray().spliterator(), false)
-          .map(d->d.getAsJsonObject().get("_source").getAsJsonObject().toString())
-          .collect(Collectors.toList());
+        List<String> sources =
+            StreamSupport
+                .stream(result.getJsonObject().get("hits").getAsJsonArray().spliterator(), false)
+                .map(d -> d.getAsJsonObject().get("_source").getAsJsonObject().toString())
+                .collect(Collectors.toList());
         return Response.ok(result.getJsonString()).build();
-      }
-      catch( Exception e ) {
+      } catch (Exception e) {
         return Response.serverError().build();
       }
     }
   }
-  
+
   public class TypeResource {
-    
+
     String indexName;
     String typeName;
 
@@ -122,34 +125,33 @@ public class RootResource {
       this.indexName = indexName;
       this.typeName = typeName;
     }
-    
+
     @GET
     @Produces("application/json")
-    public Response findResource( @QueryParam("q") String query ) throws JsonProcessingException {
+    public Response findResource(@QueryParam("q") String query) throws JsonProcessingException {
       try {
-        JestResult result = clientSupplier.get().execute(new Search.Builder(
-          new SearchSourceBuilder()
-          .query( QueryBuilders.queryString(query))
-          .toString())
-        .addIndex(indexName).addType(typeName).build());
-        if( !result.isSucceeded() ) {
-          log.error("could not search for document: "+result.getJsonString());
+        JestResult result =
+            clientSupplier.get().execute(
+                new Search.Builder(new SearchSourceBuilder()
+                    .query(QueryBuilders.queryString(query)).toString()).addIndex(indexName)
+                    .addType(typeName).build());
+        if (!result.isSucceeded()) {
+          log.error("could not search for document: " + result.getJsonString());
           return Response.serverError().build();
         }
         return Response.ok(result.getJsonString()).build();
-      }
-      catch( Exception e ) {
+      } catch (Exception e) {
         log.error("could not put resource", e);
         return Response.serverError().build();
       }
     }
-    
+
     @Path("{id}")
-    public IdResource getIdResource( @PathParam("id") String id ) {
+    public IdResource getIdResource(@PathParam("id") String id) {
       return new IdResource(indexName, typeName, id);
     }
   }
-  
+
   public class IdResource {
     String indexName;
     String typeName;
@@ -160,29 +162,26 @@ public class RootResource {
       this.typeName = typeName;
       this.id = id;
     }
-    
+
     @PUT
     @Consumes("application/json")
     @Produces("application/json")
-    public Response putResource( String document ) {
+    public Response putResource(String document) {
       try {
-        JestResult result = clientSupplier.get().execute(
-          new Index.Builder(document)
-          .index(indexName)
-          .type(typeName).
-          id(id)
-          .build());
-        
-        if( result.isSucceeded() ) {
+        JestResult result =
+            clientSupplier.get().execute(
+                new Index.Builder(document).index(indexName).type(typeName).id(id).build());
+
+        if (result.isSucceeded()) {
           return Response.ok().build();
         }
-        
-        log.error("index document did not succeed:"+result.getJsonString());
+
+        log.error("index document did not succeed:" + result.getJsonString());
         return Response.serverError().build();
-      } catch( JsonProcessingException e ) {
+      } catch (JsonProcessingException e) {
         log.error("could not serialize resource", e);
         return Response.status(400).build();
-      } catch( Exception e ) {
+      } catch (Exception e) {
         log.error("could not send content to elasticsearch", e);
         return Response.serverError().build();
       }

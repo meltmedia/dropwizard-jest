@@ -25,6 +25,7 @@ import com.meltmedia.jackson.crypto.Encrypted;
 
 public class ExampleApplication extends Application<ExampleConfiguration> {
   JestBundle<ExampleConfiguration> jestBundle;
+
   public static void main(String[] args) throws Exception {
     new ExampleApplication().run(args);
   }
@@ -32,9 +33,9 @@ public class ExampleApplication extends Application<ExampleConfiguration> {
   @Override
   public void initialize(Bootstrap<ExampleConfiguration> bootstrap) {
 
-    bootstrap.addBundle(jestBundle = JestBundle.<ExampleConfiguration>builder()
-        .withConfiguraiton(ExampleConfiguration::getElasticsearch)
-        .build());
+    bootstrap.addBundle(jestBundle =
+        JestBundle.<ExampleConfiguration> builder()
+            .withConfiguraiton(ExampleConfiguration::getElasticsearch).build());
   }
 
   @Override
