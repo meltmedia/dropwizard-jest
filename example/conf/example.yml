@@ -1,0 +1,3 @@
+elasticsearch:
+  clusterName: elasticsearch
+  uri: 'http://localhost:9200'
