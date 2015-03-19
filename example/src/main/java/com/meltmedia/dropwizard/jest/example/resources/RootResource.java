@@ -163,14 +163,13 @@ public class RootResource {
       this.typeName = typeName;
       this.id = id;
     }
-    
+
     @GET
     @Produces("application/json")
     public Response getResource() {
       try {
         JestResult result =
-            clientSupplier.get().execute(
-              new Get.Builder(indexName, id).type(typeName).build());
+            clientSupplier.get().execute(new Get.Builder(indexName, id).type(typeName).build());
 
         if (result.isSucceeded()) {
           return Response.ok().entity(result.getJsonObject().get("_source").toString()).build();

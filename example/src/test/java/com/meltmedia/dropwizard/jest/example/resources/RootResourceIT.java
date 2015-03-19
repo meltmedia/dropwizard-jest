@@ -58,16 +58,16 @@ public class RootResourceIT {
     ClientResponse response = putDocument("index/type/id", "{\"name\":\"value\"}");
 
     assertThat(response.getStatus(), equalTo(200));
-    
+
     assertThat(getDocument("index/type/id"), equalTo("{\"name\":\"value\"}"));
   }
-  
+
   public String getDocument(String path) {
     return client.resource(rootPath().path(path).build()).get(String.class);
   }
 
   public ClientResponse putDocument(String path, String document) {
-    return client.resource(rootPath().path(path).build())
-        .entity(document, "application/json").put(ClientResponse.class);
+    return client.resource(rootPath().path(path).build()).entity(document, "application/json")
+        .put(ClientResponse.class);
   }
 }

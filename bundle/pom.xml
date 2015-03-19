@@ -36,8 +36,8 @@
       <artifactId>dropwizard-core</artifactId>
     </dependency>
     <dependency>
-        <groupId>io.searchbox</groupId>
-        <artifactId>jest</artifactId>
+      <groupId>io.searchbox</groupId>
+      <artifactId>jest</artifactId>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
@@ -48,9 +48,9 @@
       <artifactId>hamcrest-all</artifactId>
     </dependency>
     <dependency>
-        <groupId>org.mockito</groupId>
-        <artifactId>mockito-all</artifactId>
-      </dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-all</artifactId>
+    </dependency>
   </dependencies>
   <build>
     <plugins>

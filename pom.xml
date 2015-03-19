@@ -35,19 +35,16 @@
     <system>Travis</system>
     <url>https://travis-ci.org/meltmedia/dropwizard-jest</url>
   </ciManagement>
-
   <issueManagement>
     <system>GitHub</system>
     <url>https://github.com/meltmedia/dropwizard-jest/issues</url>
   </issueManagement>
-
   <scm>
     <connection>scm:git:git://github.com/meltmedia/dropwizard-jest.git</connection>
     <developerConnection>scm:git:git@github.com:meltmedia/dropwizard-jest.git</developerConnection>
     <url>https://github.com/meltmedia/dropwizard-jest</url>
     <tag>HEAD</tag>
   </scm>
-
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <io.dropwizard.version>0.7.1</io.dropwizard.version>
@@ -71,22 +68,6 @@
   <dependencyManagement>
     <dependencies>
       <dependency>
-        <groupId>io.searchbox</groupId>
-        <artifactId>jest</artifactId>
-        <version>${jest.version}</version>
-        <exclusions>
-          <exclusion>
-            <groupId>commons-logging</groupId>
-            <artifactId>commons-logging</artifactId>
-          </exclusion>
-        </exclusions>
-      </dependency>
-            <dependency>
-        <groupId>org.elasticsearch</groupId>
-        <artifactId>elasticsearch</artifactId>
-        <version>${elasticsearch.version}</version>
-      </dependency>
-      <dependency>
         <groupId>io.dropwizard</groupId>
         <artifactId>dropwizard-configuration</artifactId>
         <version>${io.dropwizard.version}</version>
@@ -103,6 +84,17 @@
         <scope>test</scope>
       </dependency>
       <dependency>
+        <groupId>io.searchbox</groupId>
+        <artifactId>jest</artifactId>
+        <version>${jest.version}</version>
+        <exclusions>
+          <exclusion>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+      <dependency>
         <groupId>junit</groupId>
         <artifactId>junit</artifactId>
         <version>4.11</version>
@@ -113,6 +105,11 @@
             <artifactId>hamcrest-core</artifactId>
           </exclusion>
         </exclusions>
+      </dependency>
+      <dependency>
+        <groupId>org.elasticsearch</groupId>
+        <artifactId>elasticsearch</artifactId>
+        <version>${elasticsearch.version}</version>
       </dependency>
       <dependency>
         <groupId>org.hamcrest</groupId>
@@ -206,7 +203,7 @@
                   <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                     <mainClass>${main.class}</mainClass>
                   </transformer>
-                  <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
+                  <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
                 </transformers>
               </configuration>
             </execution>
