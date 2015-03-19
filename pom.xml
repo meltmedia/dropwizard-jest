@@ -31,6 +31,22 @@
   <description>A Dropwizard Bundle for accessing Elasticsearch.</description>
   <url>http://github.com/meltmedia/dropwizard-jest</url>
   <inceptionYear>2014</inceptionYear>
+  <ciManagement>
+    <system>Travis</system>
+    <url>https://travis-ci.org/meltmedia/dropwizard-jest</url>
+  </ciManagement>
+
+  <issueManagement>
+    <system>GitHub</system>
+    <url>https://github.com/meltmedia/dropwizard-jest/issues</url>
+  </issueManagement>
+
+  <scm>
+    <connection>scm:git:git://github.com/meltmedia/dropwizard-jest.git</connection>
+    <developerConnection>scm:git:git@github.com:meltmedia/dropwizard-jest.git</developerConnection>
+    <url>https://github.com/meltmedia/dropwizard-jest</url>
+  </scm>
+
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <io.dropwizard.version>0.7.1</io.dropwizard.version>
@@ -189,7 +205,7 @@
                   <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                     <mainClass>${main.class}</mainClass>
                   </transformer>
-                  <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
+                  <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
                 </transformers>
               </configuration>
             </execution>
