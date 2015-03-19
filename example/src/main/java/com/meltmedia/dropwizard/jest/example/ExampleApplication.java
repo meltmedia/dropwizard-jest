@@ -21,7 +21,6 @@ import io.dropwizard.setup.Environment;
 
 import com.meltmedia.dropwizard.jest.JestBundle;
 import com.meltmedia.dropwizard.jest.example.resources.RootResource;
-import com.meltmedia.jackson.crypto.Encrypted;
 
 public class ExampleApplication extends Application<ExampleConfiguration> {
   JestBundle<ExampleConfiguration> jestBundle;
@@ -41,10 +40,5 @@ public class ExampleApplication extends Application<ExampleConfiguration> {
   @Override
   public void run(ExampleConfiguration config, Environment env) throws Exception {
     env.jersey().register(new RootResource(jestBundle.getClientSupplier()));
-  }
-
-  public static interface EncryptCredentialsConfiguration {
-    @Encrypted
-    public String getPassword();
   }
 }
