@@ -13,7 +13,7 @@ Releases of this project are available on Maven Central.  You can include the pr
 ```
 <dependency>
   <groupId>com.meltmedia.dropwizard</groupId>
-  <artifactId>dropwizard-mongo</artifactId>
+  <artifactId>dropwizard-jest</artifactId>
   <version>0.1.0</version>
 </dependency>
 ```
