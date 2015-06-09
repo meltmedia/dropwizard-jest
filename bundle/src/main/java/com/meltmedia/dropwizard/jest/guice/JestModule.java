@@ -1,5 +1,7 @@
 package com.meltmedia.dropwizard.jest.guice;
 
+import java.util.function.Supplier;
+
 import io.searchbox.client.JestClient;
 
 import javax.inject.Singleton;
@@ -25,5 +27,11 @@ public class JestModule extends AbstractModule {
   @Singleton
   public JestClient provideClient() {
     return bundle.getClientSupplier().get();
+  }
+  
+  @Provides
+  @Singleton
+  public Supplier<JestClient> provideClientSupplier() {
+    return bundle.getClientSupplier();
   }
 }
