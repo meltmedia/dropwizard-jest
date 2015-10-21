@@ -47,9 +47,9 @@
   </scm>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <io.dropwizard.version>0.7.1</io.dropwizard.version>
-    <jest.version>0.1.5</jest.version>
-    <elasticsearch.version>1.4.2</elasticsearch.version>
+    <io.dropwizard.version>0.8.4</io.dropwizard.version>
+    <jest.version>0.1.7</jest.version>
+    <elasticsearch.version>1.7.1</elasticsearch.version>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
   </properties>
