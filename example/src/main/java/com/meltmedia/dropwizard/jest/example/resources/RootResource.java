@@ -99,7 +99,7 @@ public class RootResource {
         JestResult result =
             clientSupplier.get().execute(
                 new Search.Builder(new SearchSourceBuilder()
-                    .query(QueryBuilders.queryString(query)).toString()).addIndex(indexName)
+                    .query(QueryBuilders.queryStringQuery(query)).toString()).addIndex(indexName)
                     .build());
         if (!result.isSucceeded()) {
           log.error("could not search for resource: " + result.getJsonString());
@@ -134,7 +134,7 @@ public class RootResource {
         JestResult result =
             clientSupplier.get().execute(
                 new Search.Builder(new SearchSourceBuilder()
-                    .query(QueryBuilders.queryString(query)).toString()).addIndex(indexName)
+                    .query(QueryBuilders.queryStringQuery(query)).toString()).addIndex(indexName)
                     .addType(typeName).build());
         if (!result.isSucceeded()) {
           log.error("could not search for document: " + result.getJsonString());
