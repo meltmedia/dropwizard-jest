@@ -38,7 +38,7 @@ public class JestManager implements Managed {
   public void start() throws Exception {
     JestClientFactory factory = new JestClientFactory();
     factory.setHttpClientConfig(new HttpClientConfig
-                           .Builder(configuration.getUri())
+                           .Builder(configuration.getServers())
                            .multiThreaded(true)
                            .connTimeout(configuration.getConnectionTimeout())
                            .readTimeout(configuration.getReadTimeout())

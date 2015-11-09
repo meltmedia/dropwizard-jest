@@ -19,6 +19,12 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import io.dropwizard.testing.junit.DropwizardAppRule;
 
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 
 import org.junit.After;
@@ -28,8 +34,6 @@ import org.junit.Test;
 
 import com.meltmedia.dropwizard.jest.example.ExampleApplication;
 import com.meltmedia.dropwizard.jest.example.ExampleConfiguration;
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.ClientResponse;
 
 public class RootResourceIT {
 
@@ -45,17 +49,17 @@ public class RootResourceIT {
 
   @Before
   public void setUp() {
-    client = new Client();
+	  client = ClientBuilder.newClient();
   }
 
   @After
   public void tearDown() {
-    client.destroy();
+    client.close();
   }
 
   @Test
   public void shouldCreateNewDocument() {
-    ClientResponse response = putDocument("index/type/id", "{\"name\":\"value\"}");
+    Response response = putDocument("index/type/id", "{\"name\":\"value\"}");
 
     assertThat(response.getStatus(), equalTo(200));
 
@@ -63,11 +67,11 @@ public class RootResourceIT {
   }
 
   public String getDocument(String path) {
-    return client.resource(rootPath().path(path).build()).get(String.class);
+	  return client.target(rootPath()).path(path).request().get(String.class);
   }
 
-  public ClientResponse putDocument(String path, String document) {
-    return client.resource(rootPath().path(path).build()).entity(document, "application/json")
-        .put(ClientResponse.class);
+  public Response putDocument(String path, String document) {
+    WebTarget target = client.target(rootPath()).path(path);
+    return target.request(MediaType.APPLICATION_JSON).put(Entity.entity(document, MediaType.APPLICATION_JSON));
   }
 }

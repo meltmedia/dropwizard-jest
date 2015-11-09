@@ -15,9 +15,12 @@
  */
 package com.meltmedia.dropwizard.jest;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class JestConfiguration {
   protected String clusterName;
-  protected String uri;
+  protected List<String> servers;
   protected int connectionTimeout = 30000;
   protected int readTimeout = 30000;
   protected int maxTotalConnection = 1;
@@ -35,20 +38,45 @@ public class JestConfiguration {
     this.clusterName = clusterName;
     return this;
   }
-
+  
+  /**
+   * @deprecated Use {@link #getServers()} instead.
+   */
+  @Deprecated
   public String getUri() {
-    return uri;
+	return servers == null || servers.isEmpty() ? null : servers.get(0);
   }
 
+  /**
+   * @deprecated Use {@link #setServers(List)} instead
+   */
+  @Deprecated
   public void setUri( String uri ) {
-    this.uri = uri;
+    this.servers = Arrays.asList(uri);
   }
   
+  /**
+   * @deprecated Use {@link #withServers(String...)} instead
+   */
+  @Deprecated
   public JestConfiguration withUri( String uri ) {
-    this.uri = uri;
+	this.servers = Arrays.asList(uri);
     return this;
   }
 
+  public List<String> getServers() {
+    return servers;
+  }
+
+  public void setServers( List<String> servers ) {
+    this.servers = servers;
+  }
+  
+  public JestConfiguration withServers( String... servers ) {
+    this.servers = Arrays.asList(servers);
+    return this;
+  }
+  
   public int getConnectionTimeout() {
     return connectionTimeout;
   }
