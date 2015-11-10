@@ -92,7 +92,8 @@ Add the jest configuraiton block to your applications config.
 ```
 elasticsearch:
   clusterName: elasticsearch
-  uri: 'http://localhost:9200'
+  servers:
+  - 'http://localhost:9200'
 ```
 
 ## Building
