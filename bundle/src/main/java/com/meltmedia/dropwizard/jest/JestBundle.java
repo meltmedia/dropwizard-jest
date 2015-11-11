@@ -33,11 +33,11 @@ public class JestBundle<C extends Configuration> implements ConfiguredBundle<C> 
   }
   
   public static class Builder<C extends Configuration> {
-    protected ConfigurationAccessor<C> configuraitonAccessor;
+    protected ConfigurationAccessor<C> configurationAccessor;
     protected String healthCheckName = "elasticsearch";
     
-    public Builder<C> withConfiguraiton( ConfigurationAccessor<C> configuraitonAccessor ) {
-      this.configuraitonAccessor = configuraitonAccessor;
+    public Builder<C> withConfiguration( ConfigurationAccessor<C> configurationAccessor ) {
+      this.configurationAccessor = configurationAccessor;
       return this;
     }
     
@@ -47,10 +47,10 @@ public class JestBundle<C extends Configuration> implements ConfiguredBundle<C> 
     }
     
     public JestBundle<C> build() {
-      if( configuraitonAccessor == null ) {
+      if( configurationAccessor == null ) {
         throw new IllegalArgumentException("configuration accessor is required.");
       }
-      return new JestBundle<C>(configuraitonAccessor, healthCheckName);
+      return new JestBundle<C>(configurationAccessor, healthCheckName);
     }
   }
   
@@ -58,15 +58,15 @@ public class JestBundle<C extends Configuration> implements ConfiguredBundle<C> 
     return new Builder<C>();
   }
   
-  protected ConfigurationAccessor<C> configuraitonAccessor;
+  protected ConfigurationAccessor<C> configurationAccessor;
   protected String healthCheckName;
   protected JestConfiguration jestConfiguration;
   protected JestHealthCheck healthCheck;
   protected JestManager manager;
   protected Supplier<JestClient> clientSupplier;
 
-  public JestBundle(ConfigurationAccessor<C> configuraitonAccessor, String healthCheckName) {
-    this.configuraitonAccessor = configuraitonAccessor;
+  public JestBundle(ConfigurationAccessor<C> configurationAccessor, String healthCheckName) {
+    this.configurationAccessor = configurationAccessor;
     this.healthCheckName = healthCheckName;
   }
     
@@ -84,7 +84,7 @@ public class JestBundle<C extends Configuration> implements ConfiguredBundle<C> 
   
   @Override
   public void run(C configuration, Environment environment) throws Exception {
-    jestConfiguration = configuraitonAccessor.configuration(configuration);
+    jestConfiguration = configurationAccessor.configuration(configuration);
     manager = new JestManager(jestConfiguration);
     clientSupplier = manager::getClient;
     healthCheck = new JestHealthCheck(clientSupplier);
