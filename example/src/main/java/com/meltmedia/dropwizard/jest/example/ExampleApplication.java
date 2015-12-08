@@ -34,7 +34,7 @@ public class ExampleApplication extends Application<ExampleConfiguration> {
 
     bootstrap.addBundle(jestBundle =
         JestBundle.<ExampleConfiguration> builder()
-            .withConfiguraiton(ExampleConfiguration::getElasticsearch).build());
+            .withConfiguration(ExampleConfiguration::getElasticsearch).build());
   }
 
   @Override
