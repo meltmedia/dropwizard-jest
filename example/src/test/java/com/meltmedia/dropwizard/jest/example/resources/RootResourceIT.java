@@ -49,7 +49,7 @@ public class RootResourceIT {
 
   @Before
   public void setUp() {
-	  client = ClientBuilder.newClient();
+    client = ClientBuilder.newClient();
   }
 
   @After
@@ -67,11 +67,12 @@ public class RootResourceIT {
   }
 
   public String getDocument(String path) {
-	  return client.target(rootPath()).path(path).request().get(String.class);
+    return client.target(rootPath()).path(path).request().get(String.class);
   }
 
   public Response putDocument(String path, String document) {
     WebTarget target = client.target(rootPath()).path(path);
-    return target.request(MediaType.APPLICATION_JSON).put(Entity.entity(document, MediaType.APPLICATION_JSON));
+    return target.request(MediaType.APPLICATION_JSON).put(
+        Entity.entity(document, MediaType.APPLICATION_JSON));
   }
 }
