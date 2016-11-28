@@ -25,7 +25,7 @@
   </parent>
   <groupId>com.meltmedia.dropwizard</groupId>
   <artifactId>dropwizard-jest-parent</artifactId>
-  <version>0.5.0</version>
+  <version>0.5.1</version>
   <packaging>pom</packaging>
   <name>Dropwizard Jest Parent</name>
   <description>A Dropwizard Bundle for accessing Elasticsearch.</description>
@@ -47,8 +47,8 @@
   </scm>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <io.dropwizard.version>1.0.2</io.dropwizard.version>
-    <jest.version>2.0.0</jest.version>
+    <io.dropwizard.version>1.0.3</io.dropwizard.version>
+    <jest.version>2.0.3</jest.version>
     <elasticsearch.version>2.4.1</elasticsearch.version>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
