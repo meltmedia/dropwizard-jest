@@ -39,7 +39,7 @@ You will also need to include the project in your dependencies.
 <dependency>
   <groupId>com.meltmedia.dropwizard</groupId>
   <artifactId>dropwizard-jest</artifactId>
-  <version>0.5.0</version>
+  <version>0.5.1</version>
 </dependency>
 ```
 
