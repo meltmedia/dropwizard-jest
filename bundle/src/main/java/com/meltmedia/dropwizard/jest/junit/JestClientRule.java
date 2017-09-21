@@ -19,6 +19,11 @@ import io.searchbox.client.JestClient;
 import io.searchbox.client.JestClientFactory;
 import io.searchbox.client.config.HttpClientConfig;
 
+import java.util.Optional;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.UnaryOperator;
+
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
@@ -28,9 +33,16 @@ public class JestClientRule
   
   String uri;
   JestClient client;
+  Function<HttpClientConfig.Builder,HttpClientConfig.Builder> httpClientSettings = settings->settings;
 
   public JestClientRule( String uri ) {
     this.uri = uri;
+  }
+  
+  public JestClientRule withHttpSettings( Function<HttpClientConfig.Builder, HttpClientConfig.Builder> settings) {
+    httpClientSettings = httpClientSettings
+      .andThen(settings);
+    return this;
   }
   
   @Override
@@ -39,10 +51,11 @@ public class JestClientRule
       @Override
       public void evaluate() throws Throwable {
         JestClientFactory factory = new JestClientFactory();
-        factory.setHttpClientConfig(new HttpClientConfig
-                               .Builder(uri)
-                               .multiThreaded(true)
-                               .build());
+        HttpClientConfig.Builder builder = new HttpClientConfig
+          .Builder(uri)
+          .multiThreaded(true);
+        httpClientSettings.apply(builder);
+        factory.setHttpClientConfig(builder.build());
         client = factory.getObject();
         
         try {
